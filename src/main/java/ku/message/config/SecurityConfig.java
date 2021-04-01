@@ -27,9 +27,19 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
                 .anyRequest().authenticated();
 
         http.formLogin()
+                .loginPage("/login")
                 .defaultSuccessUrl("/message", true)
-                .and().logout();
-    }
+                .permitAll()
+                .and()
+                .logout()
+                .logoutUrl("/logout")
+                .clearAuthentication(true)
+                .invalidateHttpSession(true)
+                .deleteCookies("JSESSIONID", "remember-me")
+                .permitAll();
+
+
+}
 
     @Override
     protected void configure(AuthenticationManagerBuilder auth) throws Exception {
